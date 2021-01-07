@@ -4,6 +4,7 @@ from tensorflow.keras.layers import Conv2D, MaxPool2D, Flatten
 from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.utils import to_categorical
 import pickle
+import numpy as np
 
 (x_train,y_train),(x_test,y_test) = mnist.load_data()
 
@@ -31,9 +32,16 @@ model.add(Flatten())
 model.compile(loss = 'categorical_crossentropy',optimizer=tensorflow.keras.optimizers.Adam(learning_rate=0.001),
               metrics = ['accuracy'])
 
-model.fit(x_train,y_train,batch_size=60000,epochs = 75,steps_per_epoch = 1,validation_data=(x_test,y_test),verbose = 2,
-         validation_steps=1)
+#model.fit(x_train,y_train,batch_size=60000,epochs = 75,steps_per_epoch = 1,validation_data=(x_test,y_test),verbose = 2,#
+#         validation_steps=1)
+model.load_weights("model.h5")
 
-model.save('./model.h5')
+#reshaping input for model
+img = np.expand_dims(img,axis=0)
+img_class = model.predict_classes(img)
+prediction = img_class[0]
+classname = img_class[0]
+print("Class: ",classname)
+#model.save('./model.h5')
 
-deploy_model = load_model('./model.h5',compile=True)
+#deploy_model = load_model('./model.h5',compile=True)
