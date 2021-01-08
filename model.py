@@ -38,6 +38,7 @@ model.load_weights("model.h5")
 
 #reshaping input for model
 img = np.expand_dims(img,axis=0)
+# predicting from one image 
 img_class = model.predict_classes(img)
 prediction = img_class[0]
 classname = img_class[0]
